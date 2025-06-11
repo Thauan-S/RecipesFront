@@ -1,7 +1,7 @@
 export interface ResponseShortRecipes{
-    Id:string,
-    Title:string,
-    AmountIngredients:number 
-    ImageUrl :string
+    id:string,
+    title:string,
+    amountIngredients:number 
+    imageUrl :string
 
 }

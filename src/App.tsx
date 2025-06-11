@@ -11,14 +11,9 @@ function App() {
   return (
   <div>
   <BrowserRouter>
-  
-      {/* <nav className="p-4 bg-gray-100">
-        <Link className="mr-4" to="/">Home</Link>
-        <Link to="/about">About</Link>
-      </nav> */}
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path={"/dashboard"} element={<DashBoard/>} /> 
+        <Route path={"/dashboard/:token"} element={<DashBoard/>} /> 
       </Routes>
     </BrowserRouter>
   </div>
