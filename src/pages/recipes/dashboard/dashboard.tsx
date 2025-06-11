@@ -3,13 +3,19 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { ResponseShortRecipes } from "@/types/responseShortRecipesJson";
+import RecipeCardModal from "./components/RecipeCardModal";
 
 const DashBoard = () => {
   const { token } = useParams();
-
   const [recipes, SetRecipes] = useState<ResponseShortRecipes[]>([]);
   const [error, setError] = useState("");
+  const [modal,setShowModal]=useState(false)
+  const [id,setId]=useState("")
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const handleClick=(id:string)=>{
+    setId(id)
+    setShowModal(!modal)
+  }
   useEffect(() => {
     if (token) {
       localStorage.setItem("jwtToken", token);
@@ -30,10 +36,12 @@ const DashBoard = () => {
   }, []);
   console.log(recipes.length)
   return (
+    
     <div>
+      {modal && <RecipeCardModal recipeId={id}/>}
       { recipes &&
         recipes.map((r,index) => (
-          <Card key={index} className="w-full max-w-sm shadow-md rounded-2xl overflow-hidden">
+          <Card onClick={() => handleClick(r.id)} key={index} className="w-full max-w-sm shadow-md rounded-2xl overflow-hidden">
           <CardHeader className="p-0">
             <img
               src={r.imageUrl}
@@ -44,7 +52,7 @@ const DashBoard = () => {
           <CardContent className="p-4">
             <CardTitle className="text-lg font-semibold mb-2">{r.title}</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Ingredientes: {r.title}
+              Quantidade de ingredientes: {r.amountIngredients}
             </p>
           </CardContent>
         </Card>
