@@ -5,9 +5,9 @@ export  interface Recipe{
   title: string;
   ingredients: {
     id: string;
-    item: string; // ou item: string[] se você quiser fazer o parse de JSON
+    item: string[]; 
   }[];
-  instructions: Instruction[]; // Pode ajustar para um tipo específico depois
+  instructions: Instruction[]; 
   dishTypes: number[];
   cookingTime: number;
   difficulty: number;
