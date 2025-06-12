@@ -12,10 +12,11 @@ import { Input } from "@/components/ui/input";
 import { Mail, Lock } from "lucide-react";
 import { FcGoogle } from "react-icons/fc"
 import { useState } from "react";
-import type { User } from "@/types/user";
+import type { GoogleUser } from "@/types/googleUser";
+import { UserRegisterModal } from "./components/RegisterCardModal";
 
 const Login = () => {
-  const [user,setUser] = useState<User>({email: "", password: ""});
+  const [user,setUser] = useState<GoogleUser>({email: "", password: ""});
   const handleLogin =  async () => {
     const returnUrl = encodeURIComponent(import.meta.env.VITE_Return_URL);
     console.log(import.meta.env.VITE_Return_URL)
@@ -71,9 +72,11 @@ const Login = () => {
           </div>
           Google
         </Button>
-        <Button variant="outline" className="w-full">
-          Crie sua conta
-        </Button>
+        <UserRegisterModal>
+          <Button variant="outline" className="w-full">
+            Crie sua conta
+          </Button>
+        </UserRegisterModal>
       </CardFooter>
     </Card>
   );
