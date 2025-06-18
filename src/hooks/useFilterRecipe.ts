@@ -3,30 +3,35 @@ import api from "@/services/api";
 import type { ResponseShortRecipes } from "@/types/responseShortRecipesJson";
 import { useState, useEffect } from "react";
 
-const useFilterRecipes = () => {
-  const [recipes, setRecipes] = useState<ResponseShortRecipes[]>([]);
-  const[update,setUpdate]=useState(true)
-  const[filters,setFilters]=useState<RecipeFilterData>()
-  const token = localStorage.getItem("jwtToken");
-  const baseUrl = import.meta.env.VITE_BASE_URL;
+const useFilterRecipes = (token: string, baseUrl: string) => {
+  const [filteredRecipes, setfilteredRecipes] = useState<ResponseShortRecipes[]>([]);
+  const [update, setUpdate] = useState(true);
+  const [filters, setFilters] = useState<RecipeFilterData>();
+
   useEffect(() => {
-    console.log("usefilter")
+    if (filters)
     api
-      .post(`${baseUrl}/recipe/filter`, filters,{
+      .post(`${baseUrl}/recipe/filter`, filters, {
         headers: {  
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        console.log(res.data.recipes)
-        setRecipes(res.data.recipes);
+        console.log(res.data.recipes);
+        setfilteredRecipes(res.data.recipes);
       })
       .catch((error) => {
         console.error(error);
       });
     
   }, [token, baseUrl, update, filters]);
-  return { recipes, setRecipes,setUpdate,setFilters };
+  
+  return { 
+    filteredRecipes, 
+    setfilteredRecipes, 
+    setUpdate, 
+    setFilters 
+  };
 };
 
 export default useFilterRecipes;

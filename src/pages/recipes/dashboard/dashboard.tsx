@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import RecipeCardModal from "./components/RecipeCardModal";
@@ -15,24 +14,57 @@ import {
 } from "@/components/ui/dialog";
 import RecipeForm from "./components/RecipeForm";
 import { Plus } from "lucide-react";
-import useFilterRecipes from "@/hooks/useFilterRecipe";
+import { useAppContext } from "@/context/appContext";
+import RecipeCard from "./components/RecipeCard";
 
 const DashBoard = () => {
   const { token } = useParams();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const { recipes, setUpdate, setFilters } = useFilterRecipes();
-  const fetchRecipes = (filters?: RecipeFilterData) => {
-    setFilters(filters);
-  };
+  
+
   useEffect(() => {
     if (token) {
       localStorage.setItem("jwtToken", token);
     }
-  }, []);
-
+  }, [token]);
+  const { 
+    recipes, 
+     isLoading, 
+     error, 
+     setFilters,
+     filteredRecipes
+    // clearError 
+  } = useAppContext();
+  const fetchRecipes = (filters?: RecipeFilterData) => {
+    setFilters(filters);
+  };
   const handleFilter = (filters: RecipeFilterData) => {
     fetchRecipes(filters);
   };
+
+   if (isLoading) {
+     return (
+       <div className="container mx-auto p-4">
+         <div className="flex justify-center items-center h-64">
+           <div className="text-lg">Carregando receitas...</div>
+         </div>
+       </div>
+     );
+   }
+
+ 
+  //  if (error) {
+  //    return (
+  //      <div className="container mx-auto p-4">
+  //        <div className="flex justify-center items-center h-64">
+  //          <div className="text-center">
+  //            <div className="text-red-500 text-lg mb-4">{error}</div>
+  //            <Button onClick={clearError}>Tentar novamente</Button>
+  //          </div>
+  //        </div>
+  //      </div>
+  //    );
+  //  }
 
   return (
     <div className="container mx-auto p-4">
@@ -52,7 +84,7 @@ const DashBoard = () => {
             <RecipeForm
               onSuccess={() => {
                 setIsCreateModalOpen(false);
-                fetchRecipes();
+                //fetchRecipes();
               }}
               onCancel={() => setIsCreateModalOpen(false)}
             />
@@ -62,35 +94,13 @@ const DashBoard = () => {
       <RecipeFilter onFilter={handleFilter} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {recipes &&
-          recipes.map((r, index) => (
-            <Card
-              key={index}
-              className="bg-white shadow-md rounded-2xl overflow-hidden hover:shadow-lg transition-shadow duration-200"
-            >
-              <CardHeader className="p-0">
-                <img
-                  src={r.imageUrl}
-                  alt={r.title}
-                  className="w-full h-48 object-cover"
-                />
-              </CardHeader>
-              <CardContent className="p-4">
-                <CardTitle className="text-lg font-semibold mb-2">
-                  {r.title}
-                </CardTitle>
-                <p className="text-sm text-muted-foreground">
-                  Quantidade de ingredientes: {r.amountIngredients}
-                </p>
-                <div className="mt-4">
-                  <RecipeCardModal
-                    recipeId={r.id}
-                    trigger={<Button className="w-full">Ver receita</Button>}
-                    onSuccess={() => fetchRecipes()}
-                  />
-                </div>
-              </CardContent>
-            </Card>
+          recipes.map((recipe, index) => (
+           <RecipeCard key={index} recipe={recipe}/>
           ))}
+          {filteredRecipes &&
+          filteredRecipes.map((recipe, index) => (
+            <RecipeCard key={`filtered ${index}`} recipe={recipe}/>
+           ))}
       </div>
     </div>
   );

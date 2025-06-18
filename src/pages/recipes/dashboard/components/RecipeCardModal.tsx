@@ -86,19 +86,14 @@ const RecipeCardModal: React.FC<RecipeCardModalProps> = ({
     onSuccess?.();
   };
 
-  const handleDelete = async () => {
-    try {
-      const baseUrl = import.meta.env.VITE_BASE_URL;
-      const token = localStorage.getItem("jwtToken");
-      await axios.delete(`${baseUrl}/recipe/${recipeId}`, {
+  const handleDelete =  () => {
+    //const{}
+       axios.delete(`${baseUrl}/recipe/${recipeId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       handleSuccess(); // Close modal and refresh recipes
-    } catch (error) {
-      console.error("Error deleting recipe:", error);
-    }
   };
 
   useEffect(() => {
