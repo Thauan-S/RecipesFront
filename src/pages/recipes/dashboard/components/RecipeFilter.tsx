@@ -47,7 +47,7 @@ const RecipeFilter: React.FC<RecipeFilterProps> = ({ onFilter }) => {
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="flex  justify-between gap-4">
           <Select
             onValueChange={(value) =>
               setFilters({
@@ -93,7 +93,7 @@ const RecipeFilter: React.FC<RecipeFilterProps> = ({ onFilter }) => {
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder="Tipo de prato" />
+              <SelectValue  placeholder="Tipo de prato" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="0">Café da Manhã</SelectItem>

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { ResponseShortRecipes } from "@/types/responseShortRecipesJson";
 import RecipeCardModal from "./components/RecipeCardModal";
 import RecipeFilter from "./components/RecipeFilter";
 import type { RecipeFilterData } from "./components/RecipeFilter";
@@ -16,46 +15,18 @@ import {
 } from "@/components/ui/dialog";
 import RecipeForm from "./components/RecipeForm";
 import { Plus } from "lucide-react";
+import useFilterRecipes from "@/hooks/useFilterRecipe";
 
 const DashBoard = () => {
   const { token } = useParams();
-  const [recipes, SetRecipes] = useState<ResponseShortRecipes[]>([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const baseUrl = import.meta.env.VITE_BASE_URL;
-
+  const { recipes, setUpdate, setFilters } = useFilterRecipes();
   const fetchRecipes = (filters?: RecipeFilterData) => {
-    if (token) {
-      const token = localStorage.getItem("jwtToken");
-      const endpoint = filters ? "/recipe/filter" : "/dashboard";
-      const config = filters
-        ? {
-            data: filters,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        : {
-            params: { pageNumber: 1, pageSize: 10, direction: "desc" },
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          };
-
-      axios
-        .post(baseUrl + endpoint, config.data, {
-          headers: config.headers,
-        })
-        .then((response) => {
-          SetRecipes(response.data.recipes);
-        })
-        .catch((error) => console.error(error.message));
-    }
+    setFilters(filters);
   };
-
   useEffect(() => {
     if (token) {
       localStorage.setItem("jwtToken", token);
-      fetchRecipes();
     }
   }, []);
 
