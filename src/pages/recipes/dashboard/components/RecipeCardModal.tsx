@@ -15,7 +15,8 @@ import { Clock, ChefHat, Star, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import axios from "axios";
 import type { Recipe } from "@/types/recipe";
-import RecipeForm from "./RecipeForm";
+import CreateRecipeForm from "./RecipeForm";
+import { useAppContext } from "@/context/appContext";
 
 const getDifficultyInfo = (difficulty: number) => {
   switch (difficulty) {
@@ -85,15 +86,10 @@ const RecipeCardModal: React.FC<RecipeCardModalProps> = ({
     setIsEditing(false);
     onSuccess?.();
   };
-
+  const{setRecipeId}=useAppContext()
   const handleDelete =  () => {
-    //const{}
-       axios.delete(`${baseUrl}/recipe/${recipeId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      handleSuccess(); // Close modal and refresh recipes
+   setRecipeId(recipeId)
+      handleSuccess(); 
   };
 
   useEffect(() => {
@@ -123,7 +119,7 @@ const RecipeCardModal: React.FC<RecipeCardModalProps> = ({
           </DialogTitle>
         </DialogHeader>
         {isEditing ? (
-          <RecipeForm
+          <CreateRecipeForm
             recipeId={recipeId}
             onSuccess={handleSuccess}
             onCancel={() => setIsEditing(false)}

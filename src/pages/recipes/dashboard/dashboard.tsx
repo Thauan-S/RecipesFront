@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import RecipeCardModal from "./components/RecipeCardModal";
-import RecipeFilter from "./components/RecipeFilter";
+
 import type { RecipeFilterData } from "./components/RecipeFilter";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,15 +10,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import RecipeForm from "./components/RecipeForm";
+
 import { Plus } from "lucide-react";
 import { useAppContext } from "@/context/appContext";
+import CreateRecipeForm from "./components/RecipeForm";
+import RecipeFilter from "./components/RecipeFilter";
 import RecipeCard from "./components/RecipeCard";
+
+
 
 const DashBoard = () => {
   const { token } = useParams();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  
+   
 
   useEffect(() => {
     if (token) {
@@ -30,10 +32,8 @@ const DashBoard = () => {
   const { 
     recipes, 
      isLoading, 
-     error, 
      setFilters,
      filteredRecipes
-    // clearError 
   } = useAppContext();
   const fetchRecipes = (filters?: RecipeFilterData) => {
     setFilters(filters);
@@ -81,10 +81,9 @@ const DashBoard = () => {
             <DialogHeader>
               <DialogTitle>Criar Nova Receita</DialogTitle>
             </DialogHeader>
-            <RecipeForm
+            <CreateRecipeForm
               onSuccess={() => {
                 setIsCreateModalOpen(false);
-                //fetchRecipes();
               }}
               onCancel={() => setIsCreateModalOpen(false)}
             />
@@ -93,14 +92,15 @@ const DashBoard = () => {
       </div>
       <RecipeFilter onFilter={handleFilter} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {recipes &&
-          recipes.map((recipe, index) => (
-           <RecipeCard key={index} recipe={recipe}/>
-          ))}
-          {filteredRecipes &&
+        {filteredRecipes && filteredRecipes.length > 0 ? (
           filteredRecipes.map((recipe, index) => (
-            <RecipeCard key={`filtered ${index}`} recipe={recipe}/>
-           ))}
+            <RecipeCard key={`filtered-${index}`} recipe={recipe}/>
+          ))
+        ) : (
+          recipes && recipes.map((recipe, index) => (
+            <RecipeCard key={`recipe-${index}`} recipe={recipe}/>
+          ))
+        )}
       </div>
     </div>
   );

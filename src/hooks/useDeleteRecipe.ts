@@ -1,33 +1,43 @@
 import api from "@/services/api";
 import { HttpStatusCode } from "axios";
-import { useState, useEffect } from "react";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-
-const useDeleteRecipe = (token:string) => {
-    const[recipeId,setRecipeId]=useState<number>()
-    const [update, setUpdate] = useState(true)
-    const [success,setSuccess]=useState<boolean>(false)
-    const[error,setError]=useState<string>("")
-    useEffect(() => {
-        if(recipeId)
-        setSuccess(false)
-        setError("")
-        api.delete(`/recipe/${recipeId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-            .then((res) => {
-                if(res.status===HttpStatusCode.NoContent)
-                setSuccess(true)
-            })
-            .catch((error) => {
-                setError(error.response.errors);
-                setSuccess(false)
+const useDeleteRecipe = (token: string) => {
+    const queryClient = useQueryClient();
+    
+    const deleteRecipeMutation = useMutation({
+        mutationFn: async (recipeId: string) => {
+            const response = await api.delete(`/recipe/${recipeId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             });
-            
-    }, [token, update, recipeId]);
-    return {  setUpdate,error,setError,success,setRecipeId };
+            return response;
+        },
+        onSuccess: (response) => {
+            if (response.status === HttpStatusCode.NoContent) {
+                queryClient.invalidateQueries({ queryKey: ['recipes'] });
+                queryClient.invalidateQueries({ queryKey: ['filteredRecipes'] });
+            }
+        },
+        onError: (error: Error) => {
+            console.error('Erro ao deletar receita:', error);
+        }
+    });
+
+    const setRecipeId = (recipeId: string) => {
+        if (recipeId) {
+            deleteRecipeMutation.mutate(recipeId);
+        }
+    };
+
+    return { 
+        error: deleteRecipeMutation.error?.message || "", 
+        setError: () => {}, // Mantido para compatibilidade
+        success: deleteRecipeMutation.isSuccess, 
+        setRecipeId,
+        isLoading: deleteRecipeMutation.isPending
+    };
 };
 
 export default useDeleteRecipe;

@@ -11,7 +11,7 @@ interface AppContextState {
   recipes: ResponseShortRecipes[];
   filteredRecipes: ResponseShortRecipes[];
   isLoading: boolean;
-  setRecipeId: (recipeId: number | undefined) => void;
+  setRecipeId: (recipeId: string | "") => void;
   setFilters: (filters: RecipeFilterData | undefined) => void;
 }
 
@@ -27,7 +27,7 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const { setRecipeId } = useDeleteRecipe(token);
   const { setFilters, filteredRecipes } = useFilterRecipes(token, baseUrl);
   const { recipes, isLoading } = useDashBoard();
-  
+
   const contextValue: AppContextState = {
     setRecipeId,
     recipes,

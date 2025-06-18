@@ -53,3 +53,55 @@ export default tseslint.config({
 })
 ```
 # RecipesFront
+
+# Recipes App
+
+Este projeto foi refatorado para usar **@tanstack/react-query** para gerenciamento de estado de servidor.
+
+## Hooks Refatorados com React Query
+
+### useDashboard
+```typescript
+// Antes (useState + useEffect)
+const { recipes, isLoading, setUpdate } = useDashBoard();
+
+// Agora (React Query)
+const { recipes, isLoading, setUpdate } = useDashBoard();
+// setUpdate agora é um refetch automático
+```
+
+### useDeleteRecipe
+```typescript
+// Antes (useState + useEffect)
+const { setRecipeId, success, error } = useDeleteRecipe(token);
+
+// Agora (React Query + useMutation)
+const { setRecipeId, success, error, isLoading } = useDeleteRecipe(token);
+// Invalidação automática da cache após deleção
+```
+
+### useFilterRecipe
+```typescript
+// Antes (useState + useEffect)
+const { filteredRecipes, setFilters, setUpdate } = useFilterRecipes(token, baseUrl);
+
+// Agora (React Query)
+const { filteredRecipes, setFilters, setUpdate } = useFilterRecipes(token, baseUrl);
+// Cache automático e refetch inteligente
+```
+
+## Benefícios do React Query
+
+1. **Cache Automático**: Dados são cacheados automaticamente
+2. **Refetch Inteligente**: Atualiza dados quando necessário
+3. **Loading States**: Estados de carregamento gerenciados automaticamente
+4. **Error Handling**: Tratamento de erros simplificado
+5. **Invalidação**: Cache invalida automaticamente após mutações
+6. **Otimistic Updates**: Possibilidade de atualizações otimistas
+
+## Configuração
+
+O React Query está configurado no `main.tsx` com:
+- `staleTime`: 5 minutos
+- `retry`: 1 tentativa
+- QueryClient global para toda a aplicação
