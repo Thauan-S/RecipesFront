@@ -6,7 +6,11 @@ const useDeleteRecipe = (token: string) => {
     const queryClient = useQueryClient();
     
     const deleteRecipeMutation = useMutation({
+        
         mutationFn: async (recipeId: string) => {
+            // eslint-disable-next-line no-debugger
+            debugger
+            console.log("recipe to delete",recipeId)
             const response = await api.delete(`/recipe/${recipeId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -16,8 +20,8 @@ const useDeleteRecipe = (token: string) => {
         },
         onSuccess: (response) => {
             if (response.status === HttpStatusCode.NoContent) {
-                queryClient.invalidateQueries({ queryKey: ['recipes'] });
-                queryClient.invalidateQueries({ queryKey: ['filteredRecipes'] });
+                queryClient.invalidateQueries({ queryKey: ['recipes']});
+                queryClient.invalidateQueries({ queryKey: ['filteredRecipes']  });
             }
         },
         onError: (error: Error) => {
@@ -33,7 +37,7 @@ const useDeleteRecipe = (token: string) => {
 
     return { 
         error: deleteRecipeMutation.error?.message || "", 
-        setError: () => {}, // Mantido para compatibilidade
+        setError: () => {}, 
         success: deleteRecipeMutation.isSuccess, 
         setRecipeId,
         isLoading: deleteRecipeMutation.isPending

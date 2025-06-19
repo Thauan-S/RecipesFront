@@ -208,11 +208,9 @@ const RecipeCardModal: React.FC<RecipeCardModalProps> = ({
                     <ul className="space-y-2">
                       {recipe?.ingredients.map((ingredient, index) => (
                         <React.Fragment key={index}>
-                          {
                             <li  className="flex items-start gap-2">
                               - {ingredient.item}
                             </li>
-                          }
                         </React.Fragment>
                       ))}
                     </ul>
@@ -243,10 +241,10 @@ const RecipeCardModal: React.FC<RecipeCardModalProps> = ({
             <div className="flex gap-2 pt-4">
               <Button className="flex-1">
                 <Star className="w-4 h-4 mr-2" />
-                Save Recipe
+                Salvar
               </Button>
               <Button variant="outline" className="flex-1">
-                Share Recipe
+                Compartilhar 
               </Button>
             </div>
 
@@ -262,7 +260,7 @@ const RecipeCardModal: React.FC<RecipeCardModalProps> = ({
       </DialogContent>
 
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
+        <DialogContent className="bg-white">
           <DialogHeader>
             <DialogTitle>Confirmar Exclusão</DialogTitle>
             <DialogDescription>

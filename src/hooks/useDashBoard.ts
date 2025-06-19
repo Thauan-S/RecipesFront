@@ -11,13 +11,11 @@ const useDashBoard = () => {
     })
     
     const token = localStorage.getItem("jwtToken");
-
     const fetchRecipes = async () => {
         if (!token) {
             console.warn('Token não encontrado');
             return [];
         }
-
         try {
             const response = await api.get("/dashboard", {
                 params: params,
@@ -25,7 +23,7 @@ const useDashBoard = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            // Garante que sempre retorna um array
+            
             return response.data?.recipes || [];
         } catch (error) {
             console.error('Erro ao buscar receitas:', error);

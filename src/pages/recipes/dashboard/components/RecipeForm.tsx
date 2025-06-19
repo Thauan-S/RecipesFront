@@ -1,5 +1,5 @@
 import React from "react";
-import { useQueryClient } from '@tanstack/react-query';
+
 
 import IngredientsList from "./IngredientsList";
 import InstructionsList from "./InstructionsList";
@@ -27,7 +27,6 @@ const RecipeForm: React.FC<RecipeFormProps> = (props) => {
     uploadImage,
   } = useRecipeForm(props);
 
-  const queryClient = useQueryClient();
 
   return (
     <Card className="p-6">
