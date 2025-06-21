@@ -14,7 +14,7 @@ import { FcGoogle } from "react-icons/fc"
 import { useState } from "react";
 import type { GoogleUser } from "@/types/googleUser";
 import { UserRegisterModal } from "./components/RegisterCardModal";
-import { ResetPasswordModal } from "./components/ResetPasswordModal";
+
 
 const Login = () => {
   const [user,setUser] = useState<GoogleUser>({email: "", password: ""});
@@ -50,14 +50,6 @@ const Login = () => {
                 <Label htmlFor="password">
                   <Lock className="w-4 h-4" /> Senha 
                 </Label>
-                <ResetPasswordModal>
-                  <a
-                    href="#"
-                    className="text-sm underline-offset-4 hover:underline"
-                  >
-                    Esqueceu sua senha ?
-                  </a>
-                </ResetPasswordModal>
               </div>
               <Input id="password" type="password" required onChange={(e) => setUser({...user, password: e.target.value})}/>
             </div>

@@ -8,57 +8,26 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 import { toast } from "sonner";
 import api from "@/services/api";
 import { AxiosError, HttpStatusCode } from "axios";
-import type { ErrorResponse } from "@/types/errorResponse";
+import useUserchangePassword from "@/hooks/useUserChangePassword";
+
 
 interface ResetPasswordModalProps {
   children: React.ReactNode;
 }
-interface ResetPassword{
-    password: string,
-    newPassword: string
-}
-export const ResetPasswordModal = ({ children }: ResetPasswordModalProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [password, setPassword] = useState<ResetPassword>({
-    password: "",
-    newPassword: "",
-  });
 
+export const ResetPasswordModal = ({ children }: ResetPasswordModalProps) => {
+  const{isOpen}=useUserchangePassword()
   const handleSubmit =  (e: React.FormEvent) => {
     e.preventDefault();
-    const token=localStorage.getItem("jwtToken")
-    console.log(token)
-    console.log(password.newPassword)
-    console.log(password.password)
-        api.put("/user/change-password",password,{
-            method: "PUT",
-            headers:{
-                "Content-Type": "application/json" ,
-                Authorization:`Bearer ${token}`}
-        })
-        .then((response)=>{
-            if(response.status===HttpStatusCode.NoContent){
-                toast.success("Senha alterada com sucesso!")
-                setIsOpen(false);
-                setPassword({ password: "", newPassword: "" });
-            }
-        })
-        .catch((err: AxiosError<ErrorResponse> )=>{
-            const errors= err.response?.data.errors
-            errors!.forEach(e => {
-                toast.error(e)
-            });
-        });
   };
   
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-white">
+      <DialogTrigger className="dialogContent" asChild>{children}</DialogTrigger>
+      <DialogContent className="sm:max-w-[425px] bg-white ">
         <DialogHeader>
           <DialogTitle>Redefinir Senha</DialogTitle>
         </DialogHeader>
