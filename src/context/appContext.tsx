@@ -7,6 +7,7 @@ import useFilterRecipes from '@/hooks/useFilterRecipe';
 import type { RecipeFilterData } from '@/pages/recipes/dashboard/components/RecipeFilter';
 import useDeleteRecipe from '@/hooks/useDeleteRecipe';
 
+
 interface AppContextState {
   recipes: ResponseShortRecipes[];
   filteredRecipes: ResponseShortRecipes[];
@@ -33,7 +34,8 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
     recipes,
     isLoading,
     setFilters,
-    filteredRecipes
+    filteredRecipes,
+    
   };
 
   return (

@@ -16,13 +16,11 @@ import { useAppContext } from "@/context/appContext";
 import CreateRecipeForm from "./components/RecipeForm";
 import RecipeFilter from "./components/RecipeFilter";
 import RecipeCard from "./components/RecipeCard";
-
-
+import { Toaster } from "sonner";
 
 const DashBoard = () => {
   const { token } = useParams();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-   
 
   useEffect(() => {
     if (token) {
@@ -35,6 +33,7 @@ const DashBoard = () => {
      setFilters,
      filteredRecipes
   } = useAppContext();
+
   const fetchRecipes = (filters?: RecipeFilterData) => {
     setFilters(filters);
   };
@@ -52,22 +51,9 @@ const DashBoard = () => {
      );
    }
 
- 
-  //  if (error) {
-  //    return (
-  //      <div className="container mx-auto p-4">
-  //        <div className="flex justify-center items-center h-64">
-  //          <div className="text-center">
-  //            <div className="text-red-500 text-lg mb-4">{error}</div>
-  //            <Button onClick={clearError}>Tentar novamente</Button>
-  //          </div>
-  //        </div>
-  //      </div>
-  //    );
-  //  }
   return (
-
     <div className="container mx-auto p-4">
+         <Toaster />
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Minhas Receitas</h1>
         <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>

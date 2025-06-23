@@ -26,9 +26,9 @@ export function UserRegisterModal({ children }: { children: React.ReactNode }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
+    setLoading(false)
     setMessage([])
-    
+    console.log(loading)
   api.post("/user",user, {
     
         method: "POST",
@@ -37,13 +37,13 @@ export function UserRegisterModal({ children }: { children: React.ReactNode }) {
       .then((response)=>{
         if(response.status===HttpStatusCode.Created)
         setMessage(["Usuário registrado com sucesso!"])
+      setLoading(false)
       })
         .catch((err: AxiosError<ErrorResponse>)=> {
           const errors= err.response?.data.errors
           setMessage(errors as string [])
           setLoading(false)
         })
-console.log(loading)
 }
   return (
     <Dialog >

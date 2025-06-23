@@ -8,10 +8,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import api from "@/services/api";
-import { AxiosError, HttpStatusCode } from "axios";
 import useUserchangePassword from "@/hooks/useUserChangePassword";
+
 
 
 interface ResetPasswordModalProps {
@@ -19,12 +17,15 @@ interface ResetPasswordModalProps {
 }
 
 export const ResetPasswordModal = ({ children }: ResetPasswordModalProps) => {
-  const{isOpen}=useUserchangePassword()
+  const{isOpen,setIsOpen,password,setPassword,handleChangePassword}=useUserchangePassword()
+
+
+
   const handleSubmit =  (e: React.FormEvent) => {
     e.preventDefault();
   };
-  
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="dialogContent" asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-white ">
@@ -56,11 +57,13 @@ export const ResetPasswordModal = ({ children }: ResetPasswordModalProps) => {
               required
             />
           </div>
-          <Button type="submit" className="w-full">
+          <Button onClick={handleChangePassword} className="w-full">
             Alterar Senha
           </Button>
         </form>
+       
       </DialogContent>
     </Dialog>
+    </>
   );
 }; 

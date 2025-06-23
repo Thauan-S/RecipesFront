@@ -18,6 +18,7 @@ import { UserRegisterModal } from "./components/RegisterCardModal";
 
 const Login = () => {
   const [user,setUser] = useState<GoogleUser>({email: "", password: ""});
+
   const handleLogin =  async () => {
     const returnUrl = encodeURIComponent(import.meta.env.VITE_Return_URL);
     console.log(import.meta.env.VITE_Return_URL)
@@ -34,7 +35,6 @@ const Login = () => {
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
               <Label htmlFor="email">
-                {" "}
                 <Mail className="w-4 h-4" /> Email
               </Label>
               <Input
@@ -57,7 +57,7 @@ const Login = () => {
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-2">
-        <Button type="submit" className="w-full">
+        <Button onClick={handleLogin} className="w-full">
           Login
         </Button>
         <Button onClick={handleLogin} variant="outline" className="w-full">
