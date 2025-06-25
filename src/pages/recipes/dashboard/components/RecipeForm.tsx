@@ -4,7 +4,7 @@ import React from "react";
 import IngredientsList from "./IngredientsList";
 import InstructionsList from "./InstructionsList";
 import ImageUpload from "./ImageUpload";
-import { useRecipeForm } from "./hooks/useRecipeForm";
+import { useRecipeForm } from "../../../../hooks/useRecipeForm";
 import type { RecipeFormProps } from "@/types/recipe";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

@@ -8,6 +8,7 @@ import {
   SidebarInset,
 } from './components/ui/sidebar'
 import { AppSidebar } from './components/app-sidebar'
+import UserProfile from './pages/user/UserProfile'
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function Layout() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard/:token" element={<DashBoard />} />
+          <Route path="/userProfile" element={<UserProfile/>}/>
         </Routes>
       </SidebarInset>
     </>

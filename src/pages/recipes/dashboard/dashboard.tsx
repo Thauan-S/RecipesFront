@@ -16,7 +16,7 @@ import { useAppContext } from "@/context/appContext";
 import CreateRecipeForm from "./components/RecipeForm";
 import RecipeFilter from "./components/RecipeFilter";
 import RecipeCard from "./components/RecipeCard";
-import { Toaster } from "sonner";
+
 
 const DashBoard = () => {
   const { token } = useParams();
@@ -53,7 +53,6 @@ const DashBoard = () => {
 
   return (
     <div className="container mx-auto p-4">
-         <Toaster />
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Minhas Receitas</h1>
         <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>

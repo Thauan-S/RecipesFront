@@ -17,8 +17,9 @@ import {
   Inbox,
   Search,
   Settings,
-  RotateCcwKey,
+  User,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 const items = [
   {
     title: "Home",
@@ -67,20 +68,14 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-               <SidebarMenuItem >
-                  <SidebarMenuButton asChild>
-                      <a>
-                        <RotateCcwKey />
-                        <ResetPasswordModal>
-                  <a
-                  >
-                    Mudar senha 
-                  </a>
-                </ResetPasswordModal>
-
-                      </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to={"/userProfile"}>
+                    <User />
+                    <span>Perfil</span>
+                 </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
